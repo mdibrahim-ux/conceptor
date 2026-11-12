@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a2c">
+  <meta name="description" content="Conceptor — a visual-first learning workspace for understanding textbook concepts.">
+  <title>Conceptor — Beyond text. Into understanding.</title>
+  <link rel="icon" href="./assets/conceptor-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./src/styles.css">
+  <script type="importmap">
+    {"imports":{"animejs":"https://cdn.jsdelivr.net/npm/animejs@4.5.0/dist/bundles/anime.esm.min.js"}}
+  </script>
+  <script type="module" src="./src/app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#overview" data-route="overview">
+        <img src="./assets/conceptor-mark.svg" alt="" width="36" height="36">
+        <span><strong>CONCEPTOR</strong><small>VISUAL LEARNING WORKSPACE</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="main-nav">
+        <button class="nav-item" data-route="overview"><span>⌂</span> Overview</button>
+        <button class="nav-item active" data-route="chapters"><span>▤</span> My Chapters</button>
+        <button class="nav-item" data-route="library"><span>◇</span> Visual Library</button>
+        <button class="nav-item" data-route="practice"><span>✧</span> Notes &amp; Quizzes</button>
+      </nav>
+      <div class="side-divider"></div>
+      <div class="side-label">RECENT CHAPTERS</div>
+      <button class="recent-item" data-route="chapters">Operating Systems</button>
+      <button class="recent-item" data-toast="Computer Networks sample content is coming next.">Computer Networks</button>
+      <button class="recent-item" data-toast="Database Systems sample content is coming next.">Database Systems</button>
+      <div class="side-help"><strong>Need a clearer explanation?</strong><p>Open a concept and explore a visual walkthrough.</p></div>
+      <div class="profile-row"><span class="avatar">MI</span><span><strong>DesignOps</strong><small>Student workspace</small></span></div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+        <div class="breadcrumbs" id="breadcrumbs">My Chapters <span>/</span> Operating Systems</div>
+        <div class="top-actions">
+          <label class="global-search"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search concepts or resources" aria-label="Search concepts or resources"></label>
+          <span class="avatar avatar-small">DO</span>
+        </div>
+      </header>
+      <div class="page-wrap">
+        <section class="page-section" id="overviewPage" hidden>
+          <div class="eyebrow">YOUR LEARNING WORKSPACE</div>
+          <div class="page-heading-row"><div><h1>Learn beyond the page.</h1><p class="subheading">Pick up where you left off, or explore a chapter visually.</p></div><button class="button button-primary" data-route="chapters">Continue studying →</button></div>
+          <div class="overview-grid">
+            <article class="panel overview-feature"><div class="eyebrow teal-text">CONTINUE LEARNING</div><h2>Operating Systems</h2><p>Process Management · Chapter 3</p><div class="progress-line"><span style="width:75%"></span></div><div class="progress-caption"><span>6 of 8 concepts explored</span><strong>75%</strong></div><button class="button button-primary" data-route="chapters">Open chapter →</button></article>
+            <article class="panel mini-stat"><span class="stat-icon mint">◇</span><small>SAVED RESOURCES</small><strong id="savedCountOverview">0</strong><p>Visuals, notes and practice</p><button class="text-button" data-route="library">View library →</button></article>
+            <article class="panel mini-stat"><span class="stat-icon blue">✧</span><small>PRACTICE SETS</small><strong>1</strong><p>CPU Scheduling · 4 questions</p><button class="text-button" data-route="practice">Resume practice →</button></article>
+          </div>
+          <div class="section-heading"><div><h2>Recently explored</h2><p>Reopen a resource without searching through a conversation.</p></div><button class="text-button" data-route="library">View all resources →</button></div>
+          <div class="resource-grid compact" id="overviewResources"></div>
+        </section>
+        <section class="page-section" id="chaptersPage">
+          <div class="eyebrow">CHAPTER WORKSPACE</div>
+          <div class="page-heading-row"><div><h1>Process Management</h1><p class="subheading">Explore this chapter through concepts, visuals and focused practice.</p></div><div class="chapter-actions"><div class="source-meta">Textbook · Chapter 3 · pp. 18–42</div><button class="button button-secondary" id="uploadChapter">＋ Add chapter</button><input id="chapterFile" type="file" accept=".pdf,application/pdf" hidden></div></div>
+          <div class="chip-row"><span class="chip chip-mint">SOURCE-LINKED SAMPLE</span><span class="chip chip-blue">8 CONCEPTS</span><span class="chapter-progress-label">Chapter progress · <strong>6 of 8 explored</strong></span></div>
+          <div class="panel chapter-progress"><div><strong>Chapter progress</strong><small>Continue exploring concepts at your own pace.</small></div><div class="progress-track"><span style="width:75%"></span></div><strong class="progress-number">75%</strong><span class="chip chip-amber">2 LEFT</span></div>
+          <div class="chapter-layout">
+            <article class="panel visual-panel">
+              <div class="panel-top"><div><div class="eyebrow teal-text">VISUAL EXPLAINER</div><h2 id="visualTitle">How a process moves</h2><p id="visualSubtitle">A process changes state as it is admitted, scheduled, paused or completed.</p></div><button class="save-button" id="saveCurrent" aria-pressed="false">♡ <span>Save</span></button></div>
+              <div class="visual-meta"><span class="chip chip-mint" id="visualType">DIAGRAM</span><span class="chip chip-neutral" id="visualSource">TEXTBOOK REF · P. 21</span><span class="demo-label">PREPARED DEMO CONTENT</span></div>
+              <div id="visualCanvas" class="visual-canvas" aria-live="polite"></div>
+              <div class="visual-detail"><div class="detail-icon">i</div><div><strong id="detailTitle">Select a process state</strong><p id="detailText">Choose a node in the diagram to learn what happens at that stage.</p></div></div>
+              <div id="interactiveControls" class="interactive-controls" hidden></div>
+              <div class="panel-footnote" id="visualFootnote">Concept relationships are illustrative; verify details against the original textbook section.</div>
+            </article>
+            <aside class="panel outline-panel"><div class="eyebrow">CHAPTER OUTLINE</div><h2>Concepts</h2><p class="outline-caption">Choose a topic to open its learning view.</p><div class="concept-list" id="conceptList"></div><div class="outline-footer"><strong id="outlineSavedCount">0 resources saved</strong><button class="text-button" data-route="library">Open chapter library →</button></div></aside>
+          </div>
+        </section>
+        <section class="page-section" id="libraryPage" hidden>
+          <div class="eyebrow">YOUR LEARNING LIBRARY</div><div class="page-heading-row"><div><h1>Saved resources</h1><p class="subheading">Return to the exact explanation, diagram or practice set you saved.</p></div><span class="source-meta" id="libraryCount">0 saved resources</span></div>
+          <div class="library-toolbar"><label class="resource-search"><span>⌕</span><input id="resourceSearch" type="search" placeholder="Search saved concepts, chapters or resource types"></label><div class="filter-row" id="libraryFilters"><button class="filter-chip selected" data-filter="all">All resources</button><button class="filter-chip" data-filter="diagram">Diagrams</button><button class="filter-chip" data-filter="interactive">Interactive</button><button class="filter-chip" data-filter="notes">Notes</button><button class="filter-chip" data-filter="quiz">Quizzes</button></div></div>
+          <div class="resource-grid" id="resourceGrid"></div>
+          <div class="empty-state" id="libraryEmpty" hidden><div class="empty-art">◇</div><h3>Your library is ready for its first save</h3><p>Save a diagram, interactive visual or note from a chapter to find it here.</p><button class="button button-primary" data-route="chapters">Explore chapter →</button></div>
+        </section>
+        <section class="page-section" id="practicePage" hidden>
+          <div class="eyebrow">LEARNING MATERIALS</div><div class="page-heading-row"><div><h1>Notes &amp; practice</h1><p class="subheading">Move from a clear explanation to a check of your understanding.</p></div><span class="chip chip-mint">SOURCE-LINKED DEMO</span></div>
+          <div class="practice-tabs"><button class="practice-tab" data-practice="notes">Smart notes</button><button class="practice-tab active" data-practice="quiz">Practice quiz</button></div>
+          <section class="notes-view" id="notesView" hidden></section>
+          <div class="practice-layout" id="quizView">
+            <article class="panel quiz-panel"><div class="eyebrow">CPU SCHEDULING · PRACTICE</div><div class="quiz-progress-row"><span id="questionCount">QUESTION 1 OF 4</span><span id="quizPercent">25%</span></div><div class="quiz-progress-track"><span id="quizProgressFill" style="width:25%"></span></div><h2 id="questionText">Which scheduling algorithm can cause starvation?</h2><p id="questionHint">Choose the best answer. You’ll see the reasoning and source reference after submitting.</p><div class="answer-list" id="answerList"></div><div class="feedback-box" id="feedbackBox" hidden aria-live="polite"></div><div class="quiz-actions"><button class="button button-primary" id="submitAnswer" disabled>Check answer</button><button class="text-button" id="nextQuestion" hidden>Next question →</button></div></article>
+            <aside class="panel insights-panel"><h2>Your understanding</h2><p class="outline-caption">Based on this demo practice session</p><div class="score-wrap"><div class="score-circle" id="scoreCircle">—</div><div><small>CURRENT SCORE</small><strong id="scoreLabel">Not started</strong></div></div><div class="thin-divider"></div><h3>Concepts to revisit</h3><div class="weakness-list" id="weaknessList"></div><div class="thin-divider"></div><h3>Build on this result</h3><p class="small-copy">Review concepts you missed, then try a fresh question.</p><button class="button button-primary full-width" id="reviewWeak">Review weak concepts →</button></aside>
+          </div>
+        </section>
+        <div class="prototype-disclaimer">Prototype uses prepared sample content and local interactions. It does not process PDFs with a live AI model.</div>
+      </div>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div><div class="mobile-overlay" id="mobileOverlay"></div>
+</body>
+</html>
