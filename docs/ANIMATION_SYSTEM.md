@@ -17,9 +17,10 @@ Conceptor uses **Anime.js v4.5.0** for short, explanatory UI motion. The applica
 ## Accessibility and resilience
 
 - The app checks `prefers-reduced-motion` and skips Anime.js motion when the user requests reduced motion.
+- A persistent **Motion on/off** control lets learners pause non-essential interface movement. The preference is stored locally in the browser and never changes learning content.
 - Anime.js is dynamically imported; if the CDN is unavailable, the core learning interface remains usable without enhanced motion.
 - Motion does not convey information that is absent from text, labels or the underlying diagram.
-- No continuous, attention-grabbing animation loops are used.
+- The chapter canvas includes a slow decorative signal orbit to establish the active-learning workspace. It is disabled by reduced-motion settings and by the Motion control; the concept labels and diagram remain fully readable without it.
 
 ## Runtime dependency
 
