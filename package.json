@@ -1,0 +1,16 @@
+{
+  "name": "conceptor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Visual-first learning workspace — Pixelathon V1.0 Track 4",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node server.mjs --dir dist",
+    "test": "node scripts/smoke-test.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
