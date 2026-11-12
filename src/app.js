@@ -1,5 +1,9 @@
 const $ = (selector, root=document) => root.querySelector(selector);
 const $$ = (selector, root=document) => [...root.querySelectorAll(selector)];
+const motionPreference = "conceptor-motion";
+const motionQuery = matchMedia("(prefers-reduced-motion: reduce)");
+let motionEnabled = localStorage.getItem(motionPreference) !== "off" && !motionQuery.matches;
+document.documentElement.dataset.motion = motionEnabled ? "on" : "off";
 const palette = ["#365ef5","#13b8a6","#8b72e8","#d99a24","#477baf"];
 const concepts = [
   {id:"states",number:"01",title:"Process states",type:"DIAGRAM",source:"TEXTBOOK REF · P. 21",subtitle:"A process changes state as it is admitted, scheduled, paused or completed.",kind:"states"},
@@ -34,7 +38,7 @@ let anime = null;
 function loadLibrary(){try{return JSON.parse(localStorage.getItem("conceptor-library")||"[]")}catch{return []}}
 function persistLibrary(){localStorage.setItem("conceptor-library",JSON.stringify(library))}
 function toast(message){const node=$("#toast");node.textContent=message;node.classList.add("show");clearTimeout(toast.timer);toast.timer=setTimeout(()=>node.classList.remove("show"),2400)}
-function animate(selector,options={}){if(!anime||matchMedia("(prefers-reduced-motion: reduce)").matches)return;try{anime.animate(selector,{opacity:[0,1],y:[8,0],duration:420,ease:"outCubic",delay:anime.stagger(45),...options})}catch{}}
+function animate(selector,options={}){if(!anime||!motionEnabled)return;try{anime.animate(selector,{opacity:[0,1],y:[8,0],duration:420,ease:"outCubic",delay:anime.stagger(45),...options})}catch{}}
 import("animejs").then(module=>{anime=module;animate(".panel",{opacity:[0,1],y:[10,0],duration:420,delay:anime.stagger(45)})}).catch(()=>{});
 
 function navigate(route){
@@ -72,7 +76,7 @@ function renderConcept(id){
   animate("#visualCanvas > *",{opacity:[0,1],y:[8,0],duration:450,delay:anime?anime.stagger(70):0});
 }
 function renderStates(canvas){
-  canvas.innerHTML='<div class="state-flow">'+
+  canvas.innerHTML='<div class="visual-orbit" aria-hidden="true"><i></i><i></i><i></i></div><div class="state-flow">'+
     stateNode("New","Created")+ '<span class="flow-arrow">→</span>'+
     stateNode("Ready","Waiting for CPU")+ '<span class="flow-arrow">→</span>'+
     stateNode("Running","On the CPU")+ '<span class="flow-arrow">→</span>'+
@@ -211,7 +215,10 @@ $("#resourceSearch").addEventListener("input",renderLibrary);
 $("#globalSearch").addEventListener("input",event=>{const q=event.target.value.trim();if(q){navigate("library");$("#resourceSearch").value=q;renderLibrary()}});
 $("#mobileMenu").addEventListener("click",()=>{$("#sidebar").classList.toggle("open");$("#mobileOverlay").classList.toggle("show")});
 $("#mobileOverlay").addEventListener("click",()=>{$("#sidebar").classList.remove("open");$("#mobileOverlay").classList.remove("show")});
+function updateMotionToggle(){const button=$("#motionToggle");button.setAttribute("aria-pressed",String(motionEnabled));button.innerHTML='<span aria-hidden="true">'+(motionEnabled?"✦":"○")+'</span> Motion '+(motionEnabled?"on":"off")}
+$("#motionToggle").addEventListener("click",()=>{motionEnabled=!motionEnabled;localStorage.setItem(motionPreference,motionEnabled?"on":"off");document.documentElement.dataset.motion=motionEnabled?"on":"off";updateMotionToggle();toast(motionEnabled?"Motion enabled":"Motion paused")});
+motionQuery.addEventListener("change",event=>{if(event.matches){motionEnabled=false;document.documentElement.dataset.motion="off";updateMotionToggle()}});
 $("#submitAnswer").addEventListener("click",()=>{if($("#submitAnswer").textContent==="Restart quiz"){restartQuiz();return}const before=score;submitAnswer();answers[questionIndex]=score>before});
 $("#nextQuestion").addEventListener("click",nextQuestion);
 $("#reviewWeak").addEventListener("click",()=>{const missed=questions.slice(0,questionIndex+1).filter((q,i)=>answers[i]===false);if(missed.length){const target=concepts.find(c=>c.title.toLowerCase().includes(missed[0].topic.split(" ")[0].toLowerCase()))||concepts[3];navigate("chapters");renderConcept(target.id)}else toast("Complete a few questions to build a revision path.")});
-renderConcept("states");renderQuestion();renderLibrary();updateCounts();
+renderConcept("states");renderQuestion();renderLibrary();updateCounts();updateMotionToggle();
