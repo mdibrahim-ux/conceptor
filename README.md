@@ -55,3 +55,13 @@ Anime.js is used under its MIT licence. See [THIRD_PARTY_NOTICES.md](docs/THIRD_
 ## Team and contribution
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) and [PRODUCT_BRIEF.md](PRODUCT_BRIEF.md).
+
+
+## Live project links
+
+- **Live prototype:** https://conceptor-mdibrahim-uxs-projects.vercel.app
+- **GitHub repository:** https://github.com/mdibrahim-ux/conceptor
+- **Figma product screens:** https://www.figma.com/design/Nif78x99SAw2RiT1UpJikF
+- **Canva strategy pitch:** https://www.canva.com/d/nt3L-yKQPCafOiM
+
+The Vercel project is connected to this GitHub repository and deploys from `main`.
