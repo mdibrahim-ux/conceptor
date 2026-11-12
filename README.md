@@ -37,7 +37,7 @@ npm run preview
 npm test
 ```
 
-The project uses Node's built-in server and build tooling. Anime.js 4 is loaded from jsDelivr as a progressive animation enhancement; the application still renders if the CDN is unavailable. Reduced-motion preferences are respected.
+The project uses Node's built-in server and build tooling. Anime.js 4 is loaded from jsDelivr as a progressive animation enhancement; the application still renders if the CDN is unavailable. Reduced-motion preferences are respected, and the interface includes a local Motion on/off control for non-essential visual movement.
 
 ## Project structure
 
